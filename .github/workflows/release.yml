@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*.*.*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Publish ${{ github.ref_name }}
+    runs-on: windows-2025
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Run tests
+        shell: powershell
+        run: .\tests\Run-Tests.ps1
+
+      - name: Build release files
+        shell: powershell
+        env:
+          TAG: ${{ github.ref_name }}
+        run: .\tools\Build-Release.ps1 -Tag $env:TAG
+
+      - name: Publish the GitHub release
+        shell: powershell
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          gh release create $env:TAG dist/claude-desktop-multi-instance.zip dist/SHA256SUMS.txt `
+            --title $env:TAG --notes-file dist/RELEASE_NOTES.md --verify-tag
+          if ($LASTEXITCODE -ne 0) { throw "gh release create failed with exit code $LASTEXITCODE" }

@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAQ and troubleshooting: multiple Claude Desktop accounts on Windows | claude-desktop-multi-instance</title>
+<meta name="description" content="Answers about running several Claude Desktop instances on Windows: signing in to a second account, where data is stored, removing an instance, and fixing common problems.">
+<link rel="canonical" href="https://ahsanilya-s.github.io/claude-desktop-multi-instance/faq.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="claude-desktop-multi-instance">
+<meta property="og:title" content="FAQ and troubleshooting: multiple Claude Desktop accounts on Windows">
+<meta property="og:description" content="Signing in to a second account, where data is stored, removing an instance, and fixing common problems.">
+<meta property="og:url" content="https://ahsanilya-s.github.io/claude-desktop-multi-instance/faq.html">
+<meta property="og:image" content="https://ahsanilya-s.github.io/claude-desktop-multi-instance/assets/social-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="assets/site.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "Can I use two Claude accounts at the same time in Claude Desktop on Windows?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Not with Claude Desktop alone; it runs one account per Windows user. This free script starts extra copies of the installed app, each with its own data folder (via the --user-data-dir switch), so each copy can be signed in to a different account at the same time." } },
+    { "@type": "Question", "name": "Why does signing in to the second instance finish in my normal Claude?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Google and browser sign-in return to the app through a claude:// link, and Windows hands that link to the first Claude that is running. In an extra instance, sign in with your email address and type the emailed code into that instance's window." } },
+    { "@type": "Question", "name": "Is this an official Anthropic tool?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. It is an independent open-source script (MIT licence) that starts the official Claude Desktop you already installed. It is not affiliated with or endorsed by Anthropic." } },
+    { "@type": "Question", "name": "Does it modify Claude Desktop or my normal Claude?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. It does not patch or inject into the app, and it never changes or quits your normal Claude. It starts the installed app with a separate data folder and renames the extra windows' titles." } },
+    { "@type": "Question", "name": "Does it get around usage limits?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Each instance uses the account you sign in with, under that account's limits. Anthropic's terms forbid sharing accounts and using extra accounts to evade bans or detection, so use it only for accounts that are yours." } },
+    { "@type": "Question", "name": "Where does each instance keep its data?",
+      "acceptedAnswer": { "@type": "Answer", "text": "In %APPDATA%\\Claude-<Name> (sign-in, settings, MCP configuration, cache), with Claude's logs in %LOCALAPPDATA%\\Claude-<Name>\\logs. Your chats stay in your Claude account." } },
+    { "@type": "Question", "name": "How do I remove an instance?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Quit it in the picker, delete its desktop shortcut, delete %APPDATA%\\Claude-<Name> and %LOCALAPPDATA%\\Claude-<Name>, and remove its entry from instances.json in the tool's folder." } },
+    { "@type": "Question", "name": "Does it work on macOS, Linux or with PowerShell 7?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. It is for Windows 10 and 11 with Windows PowerShell 5.1, which is built into Windows. Community projects for macOS exist, such as claude-multiprofile and claude-fix." } }
+  ]
+}
+</script>
+</head>
+<body>
+<header class="bar"><div class="in">
+  <a class="name" href="./">claude-desktop-multi-instance</a>
+  <nav aria-label="Sections">
+    <a href="./#install">Install</a>
+    <a href="./#use">Use</a>
+    <a href="./#how">How it works</a>
+    <a href="#faq">FAQ</a>
+    <a href="#troubleshooting">Troubleshooting</a>
+    <a href="https://github.com/ahsanilya-s/claude-desktop-multi-instance">GitHub</a>
+  </nav>
+</div></header>
+
+<main>
+<h1>FAQ and troubleshooting</h1>
+<p class="note">For <a href="./">claude-desktop-multi-instance</a>, a free script that runs several Claude Desktop accounts side by side on Windows. Unofficial, not affiliated with Anthropic.</p>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+<details open><summary>Claude 2 is still signed out, or the sign-in finished in my normal Claude</summary>
+  <p>Google and browser sign-in return through a <code>claude://</code> link, which Windows hands to the first Claude that is running (<a href="https://github.com/anthropics/claude-code/issues/98549">#98549</a>). In Claude 2, sign in with your <b>email address</b> and type the code from the email into the Claude 2 window. If the first button opens your browser, look for the email option, which may be under “Sign in another way”.</p>
+</details>
+<details open><summary>Claude 2 opened with my normal account</summary>
+  <p>It was started without its own data folder, for example when Claude restarted itself after an update (<a href="https://github.com/anthropics/claude-code/issues/104138">#104138</a>). Close that window and open Claude 2 from its desktop shortcut or the picker.</p>
+</details>
+<details open><summary>Claude 2 shows a blank white window</summary>
+  <p>In the picker, select Claude 2, click <b>Quit</b>, then open it again. On the maintainer's PC this happened after Claude 2 had been hidden in the tray for a long time while memory was low. Quitting instances you are not using avoids it.</p>
+</details>
+<details><summary>Clicking the shortcut does nothing</summary>
+  <p>An open instance only hidden in the tray comes forward when you click its shortcut. If nothing appears:</p>
+  <ul>
+    <li>Run <code>-List</code> to see whether it is open, then Quit it in the picker and open it again.</li>
+    <li>Check that the tool's folder still exists.</li>
+    <li>If you moved the folder, run <code>-Setup</code> again from its new place.</li>
+  </ul>
+</details>
+<details><summary>The window title stays “Claude”</summary>
+  <p>The title helper starts once the window exists, which can take up to 30 seconds. Check that <code>bin\ClaudeTitleKeeper-v1.exe</code> exists in the tool's folder, and that antivirus did not block it. It is compiled on your PC, so it is unsigned.</p>
+</details>
+<details><summary>“Claude Desktop is not installed for this Windows account”</summary>
+  <p>Install Claude Desktop from <a href="https://claude.ai/download">claude.ai/download</a> while you are signed in to Windows as yourself, then run <code>-Setup</code>.</p>
+</details>
+<details><summary>“Running scripts is disabled on this system”</summary>
+  <p>Use the full command, which allows this one script without changing your system policy:</p>
+  <pre><code>powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\ClaudeInstances\Open-ClaudeInstance.ps1" -Setup</code></pre>
+  <p>The desktop shortcuts use the same method.</p>
+</details>
+<details><summary>The download fails with “Could not create SSL/TLS secure channel”</summary>
+  <p>This happens on older Windows 10. Run this line first, then the install commands again:</p>
+  <pre><code>[Net.ServicePointManager]::SecurityProtocol = 'Tls12'</code></pre>
+</details>
+<details><summary>The script says PowerShell 7 is not supported</summary>
+  <p>Run it with Windows PowerShell (<code>powershell.exe</code>), which is built into Windows. The picker, the app lookup and the title helper need it.</p>
+</details>
+
+<h2 id="faq">Questions</h2>
+<h3>Can I use two Claude accounts at the same time in Claude Desktop on Windows?</h3>
+<p>Not with Claude Desktop alone; it runs one account per Windows user. This script starts extra copies of the installed app, each with its own data folder (via the <code>--user-data-dir</code> switch), so each copy can be signed in to a different account at the same time.</p>
+<h3>Why does signing in to the second instance finish in my normal Claude?</h3>
+<p>Google and browser sign-in return to the app through a <code>claude://</code> link, and Windows hands that link to the first Claude that is running. In an extra instance, sign in with your email address and type the emailed code into that instance's window.</p>
+<h3>Is this an official Anthropic tool?</h3>
+<p>No. It is an independent open-source script (MIT licence) that starts the official Claude Desktop you already installed. It is not affiliated with or endorsed by Anthropic.</p>
+<h3>Does it modify Claude Desktop or my normal Claude?</h3>
+<p>No. It does not patch or inject into the app, and it never changes or quits your normal Claude. It starts the installed app with a separate data folder and renames the extra windows' titles.</p>
+<h3>Does it get around usage limits?</h3>
+<p>No. Each instance uses the account you sign in with, under that account's limits. Anthropic's <a href="https://www.anthropic.com/legal/consumer-terms">Consumer Terms</a> forbid sharing accounts, and its <a href="https://www.anthropic.com/legal/aup">Usage Policy</a> forbids using extra accounts to evade bans or detection. Use it only for accounts that are yours.</p>
+<h3>Can two instances use the same account?</h3>
+<p>Yes, just as you can use Claude on two devices. This is handy if you want two different MCP server setups.</p>
+<h3>Where does each instance keep its data?</h3>
+<ul>
+  <li><b>Sign-in, settings, MCP configuration and cache:</b> <code>%APPDATA%\Claude-&lt;Name&gt;</code>.</li>
+  <li><b>Claude's logs:</b> <code>%LOCALAPPDATA%\Claude-&lt;Name&gt;\logs</code>.</li>
+  <li><b>The tool's own settings</b> (numbers and labels): <code>instances.json</code> in the folder you installed the tool to.</li>
+  <li><b>Your chats:</b> in your Claude account, as always.</li>
+</ul>
+<h3>How do I remove an instance?</h3>
+<ol>
+  <li>Quit it in the picker.</li>
+  <li>Delete its desktop shortcut.</li>
+  <li>Delete <code>%APPDATA%\Claude-&lt;Name&gt;</code> and <code>%LOCALAPPDATA%\Claude-&lt;Name&gt;</code>.</li>
+  <li>Remove its entry from <code>instances.json</code>.</li>
+</ol>
+<p>A one-step <code>-Remove</code> command is on the roadmap.</p>
+<h3>How do I uninstall the tool?</h3>
+<ol>
+  <li>Quit the extra instances.</li>
+  <li>Delete the desktop shortcuts “Claude 2 …” and “Claude - choose instance”.</li>
+  <li>Delete <code>%USERPROFILE%\ClaudeInstances</code>.</li>
+  <li>Optional: delete each instance's data folders, as described above.</li>
+</ol>
+<h3>Does it work on macOS, Linux or with PowerShell 7?</h3>
+<p>No. It is for Windows 10 and 11 with Windows PowerShell 5.1. For macOS, see community projects such as <a href="https://github.com/jmdarre-v/claude-multiprofile">claude-multiprofile</a> and <a href="https://github.com/sarhej/claude-fix">claude-fix</a>.</p>
+<h3>Is it safe? What does it access?</h3>
+<ul>
+  <li>It runs as you, without admin rights, and makes no network requests.</li>
+  <li>It reads an instance's <code>config.json</code> only to see whether a sign-in key is present. It never reads out or sends the token.</li>
+  <li>Its code is one readable file, and its title helper is compiled from source on your PC.</li>
+</ul>
+<p>The full list is in <a href="https://github.com/ahsanilya-s/claude-desktop-multi-instance/blob/main/SECURITY.md">SECURITY.md</a>.</p>
+<p class="note">Still stuck? <a href="https://github.com/ahsanilya-s/claude-desktop-multi-instance/discussions">Ask in Discussions</a> or <a href="https://github.com/ahsanilya-s/claude-desktop-multi-instance/issues/new?template=bug_report.yml">report a bug</a>.</p>
+</main>
+
+<footer>
+  MIT licence © 2026 Ahsan Ilyas. Claude and Anthropic are trademarks of Anthropic. This project is not affiliated with, endorsed by or sponsored by Anthropic.
+</footer>
+<script src="assets/site.js"></script>
+</body>
+</html>

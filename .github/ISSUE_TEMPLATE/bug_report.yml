@@ -1,0 +1,53 @@
+name: Bug report
+description: Something does not work the way the README describes.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Please check the [troubleshooting page](https://ahsanilya-s.github.io/claude-desktop-multi-instance/faq.html) first.
+        Before you paste anything, remove names, email addresses and account details.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Double-click "Claude 2" on the desktop
+        2. ...
+  - type: input
+    id: tool-version
+    attributes:
+      label: Tool version
+      description: "Run: powershell -NoProfile -ExecutionPolicy Bypass -File \"$env:USERPROFILE\\ClaudeInstances\\Open-ClaudeInstance.ps1\" -Version"
+      placeholder: claude-desktop-multi-instance 0.1.0
+    validations:
+      required: true
+  - type: input
+    id: claude-version
+    attributes:
+      label: Claude Desktop version and where it came from
+      description: "In PowerShell: (Get-AppxPackage Claude).Version. Say if you use the older installer instead."
+      placeholder: 4.23118.0.0, from claude.ai/download
+    validations:
+      required: true
+  - type: input
+    id: windows-version
+    attributes:
+      label: Windows version
+      description: Run winver.
+      placeholder: Windows 11 Pro 24H2, build 26100
+    validations:
+      required: true
+  - type: textarea
+    id: list-output
+    attributes:
+      label: Output of -List
+      description: The folder paths contain your Windows user name; replace it if you like.
+      render: text

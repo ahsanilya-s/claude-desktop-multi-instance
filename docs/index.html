@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Run multiple Claude Desktop accounts on Windows | claude-desktop-multi-instance</title>
+<meta name="description" content="Free, open-source PowerShell script that runs several Claude Desktop windows side by side on Windows, each signed in to its own account, with numbered icons, window titles and a quick picker. Unofficial.">
+<link rel="canonical" href="https://ahsanilya-s.github.io/claude-desktop-multi-instance/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="claude-desktop-multi-instance">
+<meta property="og:title" content="Run multiple Claude Desktop accounts side by side on Windows">
+<meta property="og:description" content="One PowerShell script: extra Claude Desktop instances with their own sign-in, numbered icons, labelled window titles and a picker. Free, MIT, unofficial.">
+<meta property="og:url" content="https://ahsanilya-s.github.io/claude-desktop-multi-instance/">
+<meta property="og:image" content="https://ahsanilya-s.github.io/claude-desktop-multi-instance/assets/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="claude-desktop-multi-instance: run several Claude Desktop accounts side by side on Windows">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="assets/site.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://ahsanilya-s.github.io/claude-desktop-multi-instance/#app",
+      "name": "claude-desktop-multi-instance",
+      "alternateName": "Claude Desktop Multi-Instance for Windows",
+      "description": "PowerShell script that runs several Claude Desktop instances side by side on Windows, each with its own sign-in, settings and MCP servers, with numbered shortcut icons, labelled window titles and a picker window. Unofficial; not affiliated with Anthropic.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Windows 10, Windows 11",
+      "url": "https://ahsanilya-s.github.io/claude-desktop-multi-instance/",
+      "downloadUrl": "https://github.com/ahsanilya-s/claude-desktop-multi-instance/releases/latest/download/claude-desktop-multi-instance.zip",
+      "softwareRequirements": "Claude Desktop for Windows; Windows PowerShell 5.1",
+      "license": "https://opensource.org/license/mit",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@type": "Person", "name": "Ahsan Ilyas", "url": "https://github.com/ahsanilya-s" }
+    },
+    {
+      "@type": "SoftwareSourceCode",
+      "name": "claude-desktop-multi-instance",
+      "codeRepository": "https://github.com/ahsanilya-s/claude-desktop-multi-instance",
+      "programmingLanguage": "PowerShell",
+      "runtimePlatform": "Windows PowerShell 5.1",
+      "license": "https://opensource.org/license/mit",
+      "targetProduct": { "@id": "https://ahsanilya-s.github.io/claude-desktop-multi-instance/#app" }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<header class="bar"><div class="in">
+  <a class="name" href="./">claude-desktop-multi-instance</a>
+  <nav aria-label="Sections">
+    <a href="#install">Install</a>
+    <a href="#use">Use</a>
+    <a href="#how">How it works</a>
+    <a href="#tested">Tested</a>
+    <a href="#limits">Limits</a>
+    <a href="faq.html">FAQ</a>
+    <a href="https://github.com/ahsanilya-s/claude-desktop-multi-instance">GitHub</a>
+  </nav>
+</div></header>
+
+<main>
+<h1>Run multiple Claude Desktop accounts side by side on Windows</h1>
+<p class="lead">A free PowerShell script that opens extra copies of Claude Desktop, each signed in to its own account. Each copy has its own settings and MCP servers, a numbered icon, a window title like “Claude 2 - Work”, and a place in a one-key picker.</p>
+<p class="note">Unofficial community tool, not made or endorsed by Anthropic · MIT licence · no admin rights, no installer · <a href="https://github.com/ahsanilya-s/claude-desktop-multi-instance">source on GitHub</a></p>
+
+<h2 id="install">Install</h2>
+<p>You need Windows 10 or 11 and <a href="https://claude.ai/download">Claude Desktop</a>. Paste this into PowerShell (no admin needed):</p>
+<pre><code>$dir = "$env:USERPROFILE\ClaudeInstances"
+$zip = "$env:TEMP\claude-desktop-multi-instance.zip"
+Invoke-WebRequest -UseBasicParsing https://github.com/ahsanilya-s/claude-desktop-multi-instance/releases/latest/download/claude-desktop-multi-instance.zip -OutFile $zip
+Expand-Archive $zip $dir -Force
+Unblock-File "$dir\Open-ClaudeInstance.ps1"
+powershell -NoProfile -ExecutionPolicy Bypass -File "$dir\Open-ClaudeInstance.ps1" -Setup</code></pre>
+<p>Expected output: <code>Desktop shortcuts ready: Claude 2, Claude - choose instance.</code></p>
+<ol>
+  <li>Double-click <b>Claude 2</b> on your desktop. A second Claude window opens.</li>
+  <li><b>Sign in with your email address</b>, and type the code from the email into the Claude 2 window. If the first button opens your browser, pick the email option instead; it may be under “Sign in another way”. Google and browser sign-in return to your normal Claude (<a href="https://github.com/anthropics/claude-code/issues/98549">known limitation</a>).</li>
+  <li>Open <b>Claude - choose instance</b> on your desktop to see all your instances.</li>
+</ol>
+<p class="note">To look first: download the zip from the <a href="https://github.com/ahsanilya-s/claude-desktop-multi-instance/releases/latest">latest release</a>, check it against <code>SHA256SUMS.txt</code>, read the one script, then run the last line. To update, paste the same commands again. Your instances, labels and sign-ins are kept.</p>
+
+<h2 id="what">What you get</h2>
+<div class="cols">
+  <ul>
+    <li><b>Separate accounts side by side.</b> Each instance is the real Claude Desktop with its own data folder: its own sign-in, settings and MCP servers.</li>
+    <li><b>Easy to tell apart.</b> Numbered shortcut icons, optional labels such as “Work”, and window titles that show in Alt+Tab and taskbar previews.</li>
+    <li><b>A quick picker.</b> Press 1-9 to open an instance, and see which are signed in and open.</li>
+    <li><b>A real Quit.</b> The X only hides Claude in the tray. Quit closes an extra instance properly and frees its memory.</li>
+    <li><b>Your normal Claude stays as it is.</b> The tool never changes or quits it.</li>
+  </ul>
+  <figure>
+    <img src="assets/picker.png" width="781" height="311" alt="The picker window lists Claude 1 (normal), Claude 2 Work, Claude 3 Client A and Claude 4, with columns for the label, sign-in state and window state, and buttons New instance, Set label, Quit and Open.">
+    <figcaption>The picker, with sample labels. The icons here are placeholders; on your PC they are your installed Claude icon with a number badge.</figcaption>
+  </figure>
+</div>
+<p><b>Who it is for:</b> anyone with a work account and a personal account, such as an employer's Team or Enterprise seat plus a personal plan, and consultants or developers who keep a separate Claude setup per client. Claude Desktop runs one account per Windows user. <a href="https://support.claude.com/en/articles/13189465-log-in-to-your-claude-account">Anthropic's help center</a> describes switching between accounts with different emails as logging out and back in.</p>
+
+<h2 id="use">Everyday use</h2>
+<div class="table"><table>
+  <tr><th>To</th><th>Do this</th></tr>
+  <tr><td>Open Claude 2</td><td>Double-click <b>Claude 2</b> on the desktop</td></tr>
+  <tr><td>See all instances</td><td>Double-click <b>Claude - choose instance</b>, then press the instance's number (Enter opens the selected row, Esc closes)</td></tr>
+  <tr><td>Add Claude 3, 4, …</td><td>Picker → <b>New instance</b></td></tr>
+  <tr><td>Name an instance</td><td>Picker → <b>Set label</b>. The shortcut and window title change within seconds</td></tr>
+  <tr><td>Close an instance completely</td><td>Picker → select it → <b>Quit</b></td></tr>
+  <tr><td>Open your normal Claude</td><td>From the Start menu as usual, or picker → Claude 1</td></tr>
+</table></div>
+
+<h3 id="cli">Command line</h3>
+<p>Run <code>powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\ClaudeInstances\Open-ClaudeInstance.ps1"</code> with one of these options:</p>
+<div class="table"><table>
+  <tr><th>Options</th><th>What it does</th></tr>
+  <tr><td><i>(none)</i> or <code>-Name Instance2</code></td><td>Opens Claude 2, and creates it on first use</td></tr>
+  <tr><td><code>-Name Instance3</code></td><td>Opens Claude 3. Any name of letters, digits and dashes works</td></tr>
+  <tr><td><code>-Name Instance2 -Label Work</code></td><td>Sets the label without opening it</td></tr>
+  <tr><td><code>-Name Instance2 -Quit</code></td><td>Quits Claude 2 properly. Never touches your normal Claude</td></tr>
+  <tr><td><code>-Picker</code> · <code>-List</code></td><td>Shows the picker · prints every instance with its state and data folder</td></tr>
+  <tr><td><code>-Setup</code> · <code>-Version</code></td><td>Rebuilds icons and shortcuts · prints the version</td></tr>
+</table></div>
+
+<h2 id="how">How it works</h2>
+<p>Claude Desktop is an Electron app. Electron and Chromium accept a <code>--user-data-dir</code> switch, and the app's “only one copy” lock belongs to that data folder, so a copy started with another folder runs alongside your normal Claude. The script:</p>
+<ol>
+  <li>Finds the installed Claude Desktop: the MSIX version from claude.ai or the Microsoft Store, or the older per-user installer.</li>
+  <li>Starts it with <code>--user-data-dir="%APPDATA%\Claude-&lt;Name&gt;"</code>.</li>
+  <li>Starts a helper of about 2 MB, compiled on your PC from source in the script. The helper keeps the window title and exits with that instance.</li>
+</ol>
+<p>The script makes no network requests and needs no admin rights. <a href="https://github.com/ahsanilya-s/claude-desktop-multi-instance/blob/main/SECURITY.md">SECURITY.md</a> lists exactly what it reads and writes.</p>
+
+<h2 id="tested">Tested setups</h2>
+<div class="table"><table>
+  <tr><th>Setup</th><th>Status</th></tr>
+  <tr><td>Windows 11 Pro 64-bit (build 26300), Claude Desktop 4.23118.0 (MSIX from claude.ai), Windows PowerShell 5.1</td><td>Tested by hand in November 2026: open, sign-in with an email code, labels, titles, picker, Quit</td></tr>
+  <tr><td>Windows Server 2022 and 2025 on GitHub Actions</td><td>Automated tests on every change</td></tr>
+  <tr><td>Windows 10 · Windows on Arm · the older Claude installer</td><td>Not tested yet. Reports are welcome</td></tr>
+  <tr><td>PowerShell 7 (<code>pwsh</code>)</td><td>Not supported. Use Windows PowerShell; the shortcuts already do</td></tr>
+  <tr><td>macOS, Linux</td><td>Not supported. See the alternatives below</td></tr>
+</table></div>
+
+<h2 id="limits">Limitations</h2>
+<ul>
+  <li><b>It is unofficial.</b> A Claude Desktop update can change how the app starts. One 2026 Store build ignored <code>--user-data-dir</code> (<a href="https://github.com/anthropics/claude-code/issues/103068">#103068</a>); the current version works again.</li>
+  <li><b>Sign-in in extra instances needs an email code.</b> Google and browser sign-in finish in your normal Claude (<a href="https://github.com/anthropics/claude-code/issues/98549">#98549</a>).</li>
+  <li><b>Self-updates can restart an instance as your normal profile</b> (<a href="https://github.com/anthropics/claude-code/issues/104138">#104138</a>). Close it and reopen it from its shortcut.</li>
+  <li><b>Memory.</b> Each open instance is a full Claude Desktop, around 1 GB on the maintainer's PC. Quit the ones you are not using.</li>
+  <li><b>Use it for accounts that are yours.</b> Anthropic's <a href="https://www.anthropic.com/legal/consumer-terms">Consumer Terms</a> forbid sharing accounts. Its <a href="https://www.anthropic.com/legal/aup">Usage Policy</a> forbids using extra accounts to evade bans or detection.</li>
+</ul>
+<p>More answers: <a href="faq.html">FAQ and troubleshooting</a>.</p>
+
+<h2 id="alternatives">Alternatives</h2>
+<p>Other community projects, listed for convenience and not reviewed:</p>
+<ul>
+  <li><b>Windows:</b> <a href="https://github.com/vodongha/claude-desktop-clone">claude-desktop-clone</a>, <a href="https://github.com/Zoltak-Dev/ai-multi-instance">ai-multi-instance</a>, <a href="https://github.com/Oizopower/ClaudeSwitch">ClaudeSwitch</a>, <a href="https://github.com/longnc100500/claude-desktop-profiles">claude-desktop-profiles</a></li>
+  <li><b>macOS:</b> <a href="https://github.com/jmdarre-v/claude-multiprofile">claude-multiprofile</a>, <a href="https://github.com/sarhej/claude-fix">claude-fix</a></li>
+  <li><b>Without a tool:</b> a separate Windows user account per Claude account, or claude.ai in a separate browser profile.</li>
+</ul>
+
+<h2 id="contribute">Contribute and get help</h2>
+<p>
+  <a href="https://github.com/ahsanilya-s/claude-desktop-multi-instance/issues">Issues</a> ·
+  <a href="https://github.com/ahsanilya-s/claude-desktop-multi-instance/discussions">Discussions</a> ·
+  <a href="https://github.com/ahsanilya-s/claude-desktop-multi-instance/blob/main/CONTRIBUTING.md">Contributing guide</a> ·
+  <a href="https://github.com/ahsanilya-s/claude-desktop-multi-instance/blob/main/SECURITY.md">Security policy</a> ·
+  <a href="https://github.com/ahsanilya-s/claude-desktop-multi-instance/releases">Releases</a>
+</p>
+</main>
+
+<footer>
+  MIT licence © 2026 Ahsan Ilyas. Claude and Anthropic are trademarks of Anthropic. This project is not affiliated with, endorsed by or sponsored by Anthropic, and contains no Anthropic code or artwork.
+</footer>
+<script src="assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+# claude-desktop-multi-instance
+
+> Free, open-source (MIT) PowerShell script for Windows 10 and 11. It runs several Claude Desktop windows side by side, each signed in to its own Claude account. It starts the installed app with Electron's --user-data-dir switch, so each instance has its own sign-in, settings and MCP servers. It also adds numbered desktop shortcuts, window titles such as "Claude 2 - Work", a picker window (keys 1-9) and a clean Quit. Unofficial; not affiliated with Anthropic.
+
+Key facts:
+
+- **Install:** download `claude-desktop-multi-instance.zip` from the latest GitHub release, extract it to `%USERPROFILE%\ClaudeInstances`, then run `powershell -NoProfile -ExecutionPolicy Bypass -File "%USERPROFILE%\ClaudeInstances\Open-ClaudeInstance.ps1" -Setup`. This creates the "Claude 2" and "Claude - choose instance" desktop shortcuts.
+- **Sign-in:** in an extra instance, sign in with an email address and the emailed code typed into that window. Google or browser sign-in returns to the first Claude that is running.
+- **Requires:** Claude Desktop for Windows and Windows PowerShell 5.1. PowerShell 7, macOS and Linux are not supported.
+- **Data:** each instance keeps its data in `%APPDATA%\Claude-<Name>` and its logs in `%LOCALAPPDATA%\Claude-<Name>\logs`.
+- **Commands:**
+  - `-Name <name>` opens an instance
+  - `-Label <text>` sets its label
+  - `-Quit` quits it
+  - `-Picker`, `-List`, `-Setup` and `-Version` do what their names say
+- **Terms:** use it only for accounts that are yours. It does not change usage limits.
+
+## Docs
+
+- [README](https://github.com/ahsanilya-s/claude-desktop-multi-instance/blob/main/README.md): install, use, limitations, alternatives
+- [FAQ and troubleshooting](https://ahsanilya-s.github.io/claude-desktop-multi-instance/faq.html)
+- [Security notes](https://github.com/ahsanilya-s/claude-desktop-multi-instance/blob/main/SECURITY.md): what the script reads and writes
+- [Script source](https://github.com/ahsanilya-s/claude-desktop-multi-instance/blob/main/Open-ClaudeInstance.ps1)
+- [Releases](https://github.com/ahsanilya-s/claude-desktop-multi-instance/releases)

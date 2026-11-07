@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Questions and help
+    url: https://github.com/ahsanilya-s/claude-desktop-multi-instance/discussions
+    about: Ask how to do something, or share your setup.
+  - name: Problems with Claude Desktop itself
+    url: https://support.claude.com
+    about: Sign-in, billing and app problems that also happen without this tool go to Anthropic support.

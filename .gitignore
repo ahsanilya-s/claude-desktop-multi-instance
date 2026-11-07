@@ -1,0 +1,17 @@
+# Made by the tool while it runs: settings, icons made from your installed Claude icon,
+# window-title files and the compiled title helper. These stay on your PC.
+/instances.json
+/icons/
+/titles/
+/bin/
+/claude-256.png
+/claude.ico
+
+# Build output (tools\Build-Release.ps1)
+/dist/
+
+# Editors and Windows
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
