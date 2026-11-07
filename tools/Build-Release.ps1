@@ -56,6 +56,9 @@ Unblock-File "`$dir\Open-ClaudeInstance.ps1"
 powershell -NoProfile -ExecutionPolicy Bypass -File "`$dir\Open-ClaudeInstance.ps1" -Setup
 ``````
 
+Then double-click **Claude 2** on your desktop. Sign in there with your email address, and type the code from the
+email into the Claude 2 window. Google and browser sign-in return to your normal Claude.
+
 Updating keeps your instances, labels and sign-ins. Full guide: [README]($repoUrl#readme).
 
 SHA-256 of ``$zipName``: ``$hash``
