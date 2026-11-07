@@ -292,12 +292,12 @@ try {
         $tokens = $null; $parseErrors = $null
         $ast = [System.Management.Automation.Language.Parser]::ParseFile($toolScript, [ref]$tokens, [ref]$parseErrors)
         $pickerAst = $ast.Find({ param($node) $node -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq 'Show-Picker' }, $true)
-        $patched = $pickerAst.Extent.Text.Replace('[void]$form.ShowDialog()', '& $PickerTestHook $form $list $btnQuit')
+        $patched = $pickerAst.Extent.Text.Replace('[void]$form.ShowDialog()', 'Invoke-PickerTestHook $form $list $btnQuit')
         if ($patched -eq $pickerAst.Extent.Text) { throw 'The ShowDialog() call was not found in Show-Picker.' }
         . ([scriptblock]::Create($patched))
 
-        $PickerTestHook = {
-            param($PickerForm, $PickerList, $QuitButton)
+        # Drives the picker: selects a row, clicks Quit or presses keys, as the test asks, and records what it saw.
+        function Invoke-PickerTestHook($PickerForm, $PickerList, $QuitButton) {
             $null = $PickerForm.Handle; $null = $PickerList.Handle
             $script:Seen = @{
                 rows     = @($PickerList.Items | ForEach-Object { '{0}|{1}|{2}' -f $_.Text, $_.SubItems[1].Text, $_.SubItems[3].Text })

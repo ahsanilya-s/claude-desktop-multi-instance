@@ -108,7 +108,7 @@ followed by one of these options:
 | --- | --- |
 | *(none)* or `-Name Instance2` | Opens Claude 2, and creates it on first use |
 | `-Name Instance3` | Opens Claude 3. Any name of letters, digits and dashes works, for example `-Name Work` |
-| `-Name Instance2 -Label Work` | Sets the label without opening it. `-Label ''` removes it |
+| `-Name Instance2 -Label Work` | Sets the label without opening it. To remove a label, clear it with **Set label** in the picker |
 | `-Name Instance2 -Quit` | Quits Claude 2 properly. Never touches your normal Claude |
 | `-Picker` | Shows the picker |
 | `-List` | Prints every instance with its sign-in state, window state and data folder |

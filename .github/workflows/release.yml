@@ -11,6 +11,7 @@ jobs:
   release:
     name: Publish ${{ github.ref_name }}
     runs-on: windows-2025
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
 
